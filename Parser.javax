@@ -1,0 +1,148 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package controllers;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import org.apache.commons.lang3.StringUtils;
+import play.Logger;
+import play.mvc.Http;
+
+/**
+ * Class for parsing a HTTP request and returning a query string for Solr
+ * @author korbinus
+ */
+public class Parser {
+    
+    public class Parameter {
+        
+        public String name;
+        public String value;
+        
+        public Parameter(Http.RequestHeader req, String parameter) {
+
+            name = parameter;
+
+            if(req.getHeader(parameter) != null && (req.getHeader(parameter)).length() > 0) {
+                value = (req.getHeader(parameter)).trim();
+            }
+        }
+        
+        public Parameter (String parameter, String val) {
+            name = parameter;
+            if(val != null && val.length() > 0) {
+                value = val;
+            }
+        }
+        
+        @Override
+        public String toString() {
+            
+            if(value == null || value.length() == 0) {
+                return null;
+            }
+            
+            if(value.indexOf(" ") > 0 && name.equals("point_idx") != true) {
+                return name + ":"+"\""+value+"\"";
+            } else
+                return name + ":"+value;
+        }
+    }
+    
+    ArrayList<Parameter> parameters = new ArrayList<Parameter>();
+    Integer page;
+    Integer size;
+    boolean bbox = false;
+    
+    // constructor
+    public Parser (Http.RequestHeader req) throws IllegalArgumentException {
+        Logger.info("Request: "+req.toString());
+
+        String bb_ne = req.getHeader("bb_ne");
+        String bb_sw = req.getHeader("bb_sw");
+        
+        if(bb_ne != null && bb_sw != null) {
+            bbox = true;
+            page = 0;
+            size = 10000;
+        } else {
+            page = Integer.parseInt(req.getHeader("page"));
+            size = Integer.parseInt(req.getHeader("size"));
+
+            if(page < 0 || size <= 0) {
+                throw new IllegalArgumentException();
+            }
+
+            if (size > 500) {
+                size = 500;
+            }        
+        }
+        
+        parameters.add(new Parameter(req, "dwc_occurrenceID"));
+        parameters.add(new Parameter(req, "dc_modified"));
+        parameters.add(new Parameter(req, "dwc_institutionCode"));
+        parameters.add(new Parameter(req, "dwc_collectionCode"));
+        parameters.add(new Parameter(req, "dwc_basisOfRecord"));
+        parameters.add(new Parameter(req, "dwc_catalogNumber"));
+        parameters.add(new Parameter(req, "dwc_recordedBy"));
+        parameters.add(new Parameter(req, "dwc_eventDate"));
+        parameters.add(new Parameter(req, "dwc_eventTime"));
+        parameters.add(new Parameter(req, "dwc_year"));
+        parameters.add(new Parameter(req, "dwc_month"));
+        parameters.add(new Parameter(req, "dwc_continent"));
+        parameters.add(new Parameter(req, "dwc_waterBody"));
+        parameters.add(new Parameter(req, "dwc_islandGroup"));
+        parameters.add(new Parameter(req, "dwc_island"));
+        parameters.add(new Parameter(req, "dwc_country"));
+        parameters.add(new Parameter(req, "dwc_stateProvince"));
+        parameters.add(new Parameter(req, "dwc_county"));
+        parameters.add(new Parameter(req, "dwc_identifiedBy"));
+        parameters.add(new Parameter(req, "dwc_dateIdentified"));
+        parameters.add(new Parameter(req, "dwc_scientificName"));
+        parameters.add(new Parameter(req, "dwc_kingdom"));
+        parameters.add(new Parameter(req, "dwc_phylum"));
+        parameters.add(new Parameter(req, "dwc_class"));
+        parameters.add(new Parameter(req, "dwc_order"));
+        parameters.add(new Parameter(req, "dwc_family"));
+        parameters.add(new Parameter(req, "dwc_genus"));
+        parameters.add(new Parameter(req, "dwc_subgenus"));
+        parameters.add(new Parameter(req, "dwc_specificEpithet"));
+        parameters.add(new Parameter(req, "dwc_infraspecificEpithet"));
+        parameters.add(new Parameter(req, "dwc_vernacularName"));
+        
+        if(bbox) {
+            parameters.add(new Parameter("point_idx","[" + bb_sw+ " TO " + bb_ne + "]"));
+        }
+        
+        
+        // clean parameters from objects with null value
+        for(Iterator<Parameter> iterator = parameters.iterator(); iterator.hasNext();) {
+            Parameter parameter = iterator.next();
+            if(parameter.value == null){
+                iterator.remove();
+            }
+        }
+    }
+    
+    public String getQuery() {
+        return StringUtils.join(parameters, " AND "); 
+    }
+    
+    public Integer getPage() {
+        return page;
+    }
+    
+    public Integer getSize() {
+        return size;
+    }
+    
+    public boolean isBoundingBox() {
+        return bbox;
+    }
+}

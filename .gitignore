@@ -1,0 +1,13 @@
+*.class
+*.iml
+.idea
+target/
+nbproject/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+.classpath
+.project
+/src/main/resources/META-INF/persistence.xml

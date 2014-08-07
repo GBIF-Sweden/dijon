@@ -1,0 +1,42 @@
+2014-08-04 11:28:41,174 - [INFO] - from play in pool-5-thread-2 
+Listening for HTTP on /0:0:0:0:0:0:0:0:9000
+
+2014-08-04 11:30:17,427 - [INFO] - from play in play-internal-execution-context-1 
+database [default] connected at jdbc:mysql://localhost:3306/portail?characterEncoding=UTF-8
+
+2014-08-04 11:30:18,369 - [INFO] - from play in play-internal-execution-context-1 
+Application started (Dev)
+
+2014-08-04 11:30:19,755 - [DEBUG] - from application in play-akka.actor.default-dispatcher-5 
+Number of documents for: *:*
+
+2014-08-04 11:30:20,729 - [DEBUG] - from application in play-akka.actor.default-dispatcher-5 
+153135 documents found
+
+2014-08-04 11:30:24,478 - [INFO] - from application in play-akka.actor.default-dispatcher-4 
+POST Request: {"dwc_scientificName":"Anastrangalia sanguinolenta","page":0,"size":100,"sort":"dwc_scientificName,dwc_institutionCode,dwc_collectionCode,dwc_catalogNumber","order":"asc"}
+
+2014-08-04 11:30:24,479 - [DEBUG] - from application in play-akka.actor.default-dispatcher-4 
+dwc_scientificName:Anastrangalia sanguinolenta
+
+2014-08-04 11:30:24,479 - [DEBUG] - from application in play-akka.actor.default-dispatcher-4 
+page:0
+
+2014-08-04 11:30:24,479 - [DEBUG] - from application in play-akka.actor.default-dispatcher-4 
+size:100
+
+2014-08-04 11:30:24,479 - [DEBUG] - from application in play-akka.actor.default-dispatcher-4 
+sort:dwc_scientificName,dwc_institutionCode,dwc_collectionCode,dwc_catalogNumber
+
+2014-08-04 11:30:24,479 - [DEBUG] - from application in play-akka.actor.default-dispatcher-4 
+order:asc
+
+2014-08-04 11:30:24,479 - [DEBUG] - from application in play-akka.actor.default-dispatcher-4 
+page: 0
+
+2014-08-04 11:30:24,479 - [DEBUG] - from application in play-akka.actor.default-dispatcher-4 
+Number of parameters: 1
+
+2014-08-04 11:30:24,485 - [DEBUG] - from application in play-akka.actor.default-dispatcher-4 
+Solr query: dwc_scientificName:"Anastrangalia sanguinolenta"
+

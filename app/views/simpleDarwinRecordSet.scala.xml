@@ -1,0 +1,8 @@
+@(content: String)<?xml version="1.0" encoding="utf-8"?>
+<SimpleDarwinRecordSet xmlns:dc="http://purl.org/dc/terms/" 
+	xmlns:dwc="http://rs.tdwg.org/dwc/terms/" 
+	xmlns:dwr="http://rs.tdwg.org/dwc/xsd/simpledarwincore/" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://rs.tdwg.org/dwc/xsd/simpledarwincore/ http://rs.tdwg.org/dwc/xsd/tdwg_dwc_simple.xsd">
+	@Xml(content)
+</SimpleDarwinRecordSet>

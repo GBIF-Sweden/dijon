@@ -1,0 +1,52 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                                       controllers.Application.index()
+
+# Remove trailing slash and redirect
+GET     /*path/  controllers.Application.untrail(path: String)
+
+# CORS
+OPTIONS /izeure/size                        controllers.Cors.cors()
+OPTIONS /search/occurrences                 controllers.Cors.cors()
+OPTIONS /download/occurrences               controllers.Cors.cors()
+
+OPTIONS /occurrence/:id/version             controllers.Cors.cors1(id:String)
+
+OPTIONS /occurrence/:id			controllers.Cors.cors1(id:String)
+OPTIONS /occurrence/:id/json		controllers.Cors.cors1(id:String)
+OPTIONS /occurrence/:id/xml			controllers.Cors.cors1(id:String)
+
+OPTIONS /occurrence/:id/:version		controllers.Cors.cors5(id:String, version:Int)
+OPTIONS /occurrence/:id/:version/json	controllers.Cors.cors5(id:String, version:Int)
+OPTIONS /occurrence/:id/:version/xml	controllers.Cors.cors5(id:String, version:Int)
+
+# Index size
+GET     /izeure/size                        controllers.Search.numberOfDocuments()
+
+# Search occurrences
+POST     /search/occurrences                controllers.Search.searchOccurrences()
+
+# Download occurrences
+#POST     /download/occurrences              controllers.Search.downloadOccurrences()
+GET     /download/occurrences              controllers.Search.downloadOccurrences()
+
+# Raw occurrence
+GET	/occurrence/:id/raw	    		controllers.Entity.rawOccurrence(id: String)
+
+# Last occurrence version
+GET     /occurrence/:id/version             controllers.Entity.lastOccurrenceVersion(id: String)
+
+# Occurrence
+GET 	/occurrence/:id			controllers.Entity.occurrenceXml(id: String, version:Int ?=0)
+GET 	/occurrence/:id/json		controllers.Entity.occurrenceJson(id: String, version:Int ?=0)
+GET 	/occurrence/:id/xml			controllers.Entity.occurrenceXml(id: String, version:Int ?=0)
+
+GET 	/occurrence/:id/:version		controllers.Entity.occurrenceXml(id: String, version:Int)
+GET 	/occurrence/:id/:version/json	controllers.Entity.occurrenceJson(id: String, version:Int)
+GET 	/occurrence/:id/:version/xml	controllers.Entity.occurrenceXml(id: String, version:Int)
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file                           controllers.Assets.at(path="/public", file)
